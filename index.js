@@ -32,6 +32,7 @@ if (!fs.existsSync(uploadFileFolder)) {
   fs.mkdirSync(uploadFileFolder, { recursive: true });
 }
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.json());
