@@ -1,21 +1,38 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import fs from 'fs';
 import path from 'path';
 import connectDB from './databases/dbConnection.js';
 import routes from './src/routes.js';
 import errorHandler from './middlewares/errorHandler.js';
 import 'dotenv/config';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { port } from './config.env.js';
 import dotenv from 'dotenv'
 
 dotenv.config();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
 
 //! set security http headers
 // app.use(helmet())
+
+const uploadImageFolder = path.join(__dirname, 'uploads', 'images');
+if (!fs.existsSync(uploadImageFolder)) {
+  fs.mkdirSync(uploadImageFolder, { recursive: true });
+}
+
+const uploadFileFolder = path.join( __dirname, 'uploads', 'files');
+if (!fs.existsSync(uploadFileFolder)) {
+  fs.mkdirSync(uploadFileFolder, { recursive: true });
+}
+
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 app.use(express.json());
 
