@@ -4,6 +4,8 @@ import projectRoutes from './modules/project/project.routes.js';
 
 const router = express.Router();
 
+router.use('/projects', projectRoutes);
+
 //upload files routes
 router.post('/uploads/images', uploadSingleImage, (req, res) => {
   const filePath = req.file.path;
