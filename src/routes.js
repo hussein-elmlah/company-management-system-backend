@@ -3,9 +3,11 @@ import { uploadSingleImage, uploadSingleFile } from '../middlewares/fileUpload.j
 import projectRoutes from './modules/project/project.routes.js';
 import departmentRoutes from './modules/department/department.routes.js';
 import ProjectEmployeeRoutes from './modules/projectEmployee/projectEmployee.routes.js';
+import UserRoutes from './modules/user/user.routes.js';
 
 const router = express.Router();
 
+router.use('/users', UserRoutes);
 router.use('/projects', projectRoutes);
 router.use('/departments', departmentRoutes);
 router.use('/project-employees', ProjectEmployeeRoutes);
