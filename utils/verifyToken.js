@@ -12,9 +12,7 @@ export const verifyToken = (req, res, next) => {
   
   try {
     const decoded = jsonwebtoken.verify(token, JWT_SECRET);
-    console.log(decoded);
     req.body._id = decoded._id;
-    console.log(req.body._id, decoded._id);
     next();
   } catch (error) {
     // next(error);
@@ -22,3 +20,5 @@ export const verifyToken = (req, res, next) => {
   }
 
 }
+
+

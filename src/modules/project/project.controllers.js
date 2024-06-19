@@ -2,6 +2,14 @@ import Project from './project.model.js';
 import asyncHandler from '../../../lib/asyncHandler.js';
 import CustomError from '../../../lib/customError.js';
 import { handleQueryParams } from '../../../utils/handleQueryParams.js';
+import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv'
+import User from '../user/user.model.js';
+import webPush from 'web-push';
+import bodyParser from 'body-parser';
+
+dotenv.config({ path: './.env' });
+const { JWT_SECRET } = process.env;
 
 // @desc    Get all projects
 // @route   GET /projects
@@ -23,9 +31,21 @@ export const getProjectById = asyncHandler(async (req, res) => {
 });
 
 export const createProject = asyncHandler(async (req, res) => {
+  /**
+   * get username of whoever created that project
+   * get all branchManager(s) 
+   * send them all real-time notifications with the username.
+   */
   const projectData = req.body;
-  const newProject = await Project.create(projectData);
-  res.status(201).json(newProject);
+  await Project.create(projectData);
+  const decoded = jsonwebtoken.verify(req.header("Authorization"), JWT_SECRET);
+  const senderUsername = decoded.username;
+  const branchManagers = await User.find({ "role": "branchManager" });
+  webPush.setVapidDetails('mailto:test@mail.com', process.env.publicKey, process.env.privateKey);
+  res.status(201).json({
+    "publicKey": process.env.publicKey,
+    "privateKey": process.env.privateKey,
+  });
 });
 
 export const updateProject = asyncHandler(async (req, res) => {

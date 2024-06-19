@@ -11,12 +11,23 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { port } from './config.env.js';
 import dotenv from 'dotenv'
+import bodyParser from 'body-parser';
+import webPush from 'web-push';
 
 dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
+
+if (!process.env.publicKey || !process.env.privateKey) {
+  const vapidKeys = webPush.generateVAPIDKeys();
+  process.env.publicKey = vapidKeys.publicKey;
+  process.env.privateKey = vapidKeys.privateKey;
+}
+// console.log(`privateKey ${process.env.privateKey}, publicKey ${process.env.publicKey}`);
+
+app.use(bodyParser.json());
 
 
 //! set security http headers
