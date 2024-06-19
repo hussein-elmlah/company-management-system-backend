@@ -1,4 +1,7 @@
 import jsonwebtoken from 'jsonwebtoken';
+import dotenv from 'dotenv'
+
+dotenv.config({ path: './.env' });
 
 const { JWT_SECRET } = process.env;
 
@@ -11,7 +14,7 @@ export const generateTokenUser = (user) => {
     if (!JWT_SECRET) {
       return new Error('JWT secret is not defined.');
     }
-
+    
     const token = jsonwebtoken.sign(
       { username: user.username, id: user._id, role: user.role },
       JWT_SECRET,
