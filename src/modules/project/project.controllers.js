@@ -42,7 +42,6 @@ export const createProject = asyncHandler(async (req, res) => {
   const newProject = await Project.create(projectData);
   const branchManagers = await User.find({ "role": "branchManager" });
   
-  //TODO: createMany()
   //TODO: remove project from notification schema
   //TODO: asbtract to achieve SRP () role - role
   /**
@@ -54,22 +53,14 @@ export const createProject = asyncHandler(async (req, res) => {
    * }
    */
 
-  const notificationsList = branchManagers.map( manager => {
-    ProjectNotification.create({
-      project: newProject._id,
-      receiver: manager._id,
-      message: "A new project is now created!"
-    })
-  });
-
-  Promise.all(notificationsList)
-    .then(() => res.status(200).json({ message: 'Notification sent successfully.' }))
-    .catch(err => {
-      console.error('Error sending notification, reason: ', err);
-      res.sendStatus(500);
-  });
-
-  io.emit('branch-managers-channel',{message: 'A new project is now created!'});
+  const notificationsList = branchManagers.map( manager => ({
+    project: newProject._id,
+    receiver: manager._id,
+    message: "A new project is now created!"
+  }));
+  
+  ProjectNotification.insertMany(notificationsList)
+  .then(()=>io.emit('branch-managers-channel',{message: 'A new project is now created!'}));
   
 });
 
