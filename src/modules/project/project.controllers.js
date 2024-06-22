@@ -31,16 +31,10 @@ export const getProjectById = asyncHandler(async (req, res) => {
 });
 
 export const createProject = asyncHandler(async (req, res) => {
-  /**
-   * get username of whoever created that project
-   * get all branchManager(s) 
-   * send them all real-time notifications with the username.
-   */
   const projectData = req.body;
   const decoded = jsonwebtoken.verify(req.header("Authorization"), JWT_SECRET);
-  projectData.client.user = decoded.id; // inject client id in the raw data
+  projectData.client.user = decoded.id;
   const newProject = await Project.create(projectData);
-  const branchManagers = await User.find({ "role": "branchManager" });
   
   //TODO: remove project from notification schema
   //TODO: asbtract to achieve SRP () role - role
@@ -51,8 +45,9 @@ export const createProject = asyncHandler(async (req, res) => {
    *    role: '',       optional
    *    department: ''  optional
    * }
-   */
-
+  */
+ 
+ const branchManagers = await User.find({ "role": "branchManager" });
   const notificationsList = branchManagers.map( manager => ({
     project: newProject._id,
     receiver: manager._id,
@@ -60,7 +55,13 @@ export const createProject = asyncHandler(async (req, res) => {
   }));
   
   ProjectNotification.insertMany(notificationsList)
-  .then(()=>io.emit('branch-managers-channel',{message: 'A new project is now created!'}));
+  .then(()=>{
+    io.emit('branch-managers-channel',{message: 'A new project is now created!'})
+    res.json({message: " A new notification is sent "});
+  })
+  .catch( ()=>{
+    res.json({ message: "Error during sending notifications "});
+  })
   
 });
 
