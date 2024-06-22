@@ -1,12 +1,12 @@
 import Project from './project.model.js';
+import ProjectNotification from './../projectNotification/projectNotification.model.js';
 import asyncHandler from '../../../lib/asyncHandler.js';
 import CustomError from '../../../lib/customError.js';
 import { handleQueryParams } from '../../../utils/handleQueryParams.js';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import User from '../user/user.model.js';
-import webPush from 'web-push';
-import bodyParser from 'body-parser';
+import { io } from '../../../index.js';
 
 dotenv.config({ path: './.env' });
 const { JWT_SECRET } = process.env;
@@ -37,15 +37,40 @@ export const createProject = asyncHandler(async (req, res) => {
    * send them all real-time notifications with the username.
    */
   const projectData = req.body;
-  await Project.create(projectData);
   const decoded = jsonwebtoken.verify(req.header("Authorization"), JWT_SECRET);
-  const senderUsername = decoded.username;
+  projectData.client.user = decoded.id; // inject client id in the raw data
+  const newProject = await Project.create(projectData);
   const branchManagers = await User.find({ "role": "branchManager" });
-  webPush.setVapidDetails('mailto:test@mail.com', process.env.publicKey, process.env.privateKey);
-  res.status(201).json({
-    "publicKey": process.env.publicKey,
-    "privateKey": process.env.privateKey,
+  
+  //TODO: createMany()
+  //TODO: remove project from notification schema
+  //TODO: asbtract to achieve SRP () role - role
+  /**
+   * params | chaining mongoose methods to end with exec() - get rid of (network requests) or (N+1 query problem).
+   * {
+   *    receiver: '',   optional
+   *    role: '',       optional
+   *    department: ''  optional
+   * }
+   */
+
+  const notificationsList = branchManagers.map( manager => {
+    ProjectNotification.create({
+      project: newProject._id,
+      receiver: manager._id,
+      message: "A new project is now created!"
+    })
   });
+
+  Promise.all(notificationsList)
+    .then(() => res.status(200).json({ message: 'Notification sent successfully.' }))
+    .catch(err => {
+      console.error('Error sending notification, reason: ', err);
+      res.sendStatus(500);
+  });
+
+  io.emit('branch-managers-channel',{message: 'A new project is now created!'});
+  
 });
 
 export const updateProject = asyncHandler(async (req, res) => {

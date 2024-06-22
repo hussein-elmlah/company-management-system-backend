@@ -12,21 +12,34 @@ import { dirname } from 'path';
 import { port } from './config.env.js';
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser';
-import webPush from 'web-push';
 
-dotenv.config();
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import http from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
+// Create an HTTP server
+const HTTPserver = http.createServer(app);
 
-if (!process.env.publicKey || !process.env.privateKey) {
-  const vapidKeys = webPush.generateVAPIDKeys();
-  process.env.publicKey = vapidKeys.publicKey;
-  process.env.privateKey = vapidKeys.privateKey;
-}
-// console.log(`privateKey ${process.env.privateKey}, publicKey ${process.env.publicKey}`);
+// Initialize the Socket.IO HTTPServer
+const io = new Server(HTTPserver, {
+    cors: {   
+        origin: "*", // This is just for testing purposes, allow all origins
+    },
+});
 
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
+
+HTTPserver.listen(process.env.SOCKET_IO_PORT, () => {
+  console.log(`Socket IO Server is running on port ${process.env.SOCKET_IO_PORT}`);
+});
+
+dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
 app.use(bodyParser.json());
 
 
@@ -100,3 +113,4 @@ process.on('SIGTERM', () => {
   shutdown();
 });
 
+export { io };

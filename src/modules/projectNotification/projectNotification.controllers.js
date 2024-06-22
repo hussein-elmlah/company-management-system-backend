@@ -10,9 +10,9 @@ export const getAllProjectNotifications = asyncHandler(async (req, res) => {
 
 
 export const createProjectNotification = asyncHandler(async (req, res) => {
-const notificationInfo = req.body;
-const newProjectNotification = await ProjectNotification.create(notificationInfo);
-res.status(201).json(newProjectNotification);
+    const notificationInfo = req.body;
+    const newProjectNotification = await ProjectNotification.create(notificationInfo);
+    res.status(201).json(newProjectNotification);
 });
 
 

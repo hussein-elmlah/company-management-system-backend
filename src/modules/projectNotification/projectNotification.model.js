@@ -8,7 +8,7 @@ const projectNotificationSchema = new mongoose.Schema({
   },
   receiver: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: 'User', // (who gets it)
     required: true
   },
   isRead: {
