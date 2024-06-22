@@ -57,6 +57,39 @@ export const login = asyncHandler(async (req, res) => {
   res.json({ user: token });
 });
 
+
+
+
+// export const login = asyncHandler(async (req, res) => {
+//   const { username, password } = req.body;
+
+//   const user = await User.findOne({ username });
+//   if (!user) {
+//     throw new CustomError('Invalid credentials', 401);
+//   }
+
+//   const passwordMatch = await user.comparePassword(password); // Assuming User model has a method to compare passwords
+//   if (!passwordMatch) {
+//     throw new CustomError('Invalid credentials', 401);
+//   }
+
+//   const token = generateTokenUser(user);
+
+//   res.cookie('jwt', token, {
+//     expires: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days
+//     httpOnly: true,
+//     secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
+//   });
+
+//   res.json({ token, user: { id: user._id, username: user.username, role: user.role } });
+// });
+
+
+
+
+
+
+
 export const paginateResults = (page, pageSize, users, usersCount) => {
   const startIndex = (page - 1) * pageSize;
   // eslint-disable-next-line radix

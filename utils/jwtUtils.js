@@ -1,20 +1,17 @@
 import jsonwebtoken from 'jsonwebtoken';
-
-const { JWT_SECRET } = process.env;
-
 export const generateTokenUser = (user) => {
   try {
     if (!user || !user.username || !user._id || !user.role) {
       return new Error('Invalid user object.');
     }
 
-    if (!JWT_SECRET) {
+    if (!process.env.JWT_SECRET) {
       return new Error('JWT secret is not defined.');
     }
 
     const token = jsonwebtoken.sign(
       { username: user.username, id: user._id, role: user.role },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       { expiresIn: '7d' },
     );
     return token;
@@ -23,3 +20,7 @@ export const generateTokenUser = (user) => {
     throw error;
   }
 };
+
+
+
+ 
