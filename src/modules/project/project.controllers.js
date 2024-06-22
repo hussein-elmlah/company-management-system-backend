@@ -1,12 +1,13 @@
 import Project from './project.model.js';
-import ProjectNotification from './../projectNotification/projectNotification.model.js';
 import asyncHandler from '../../../lib/asyncHandler.js';
 import CustomError from '../../../lib/customError.js';
 import { handleQueryParams } from '../../../utils/handleQueryParams.js';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv'
 import User from '../user/user.model.js';
+import ProjectNotification from './../projectNotification/projectNotification.model.js';
 import { io } from '../../../index.js';
+import * as ProjectNotificationController from '../projectNotification/projectNotification.controllers.js';
 
 dotenv.config({ path: './.env' });
 const { JWT_SECRET } = process.env;
@@ -47,21 +48,9 @@ export const createProject = asyncHandler(async (req, res) => {
    * }
   */
  
- const branchManagers = await User.find({ "role": "branchManager" });
-  const notificationsList = branchManagers.map( manager => ({
-    project: newProject._id,
-    receiver: manager._id,
-    message: "A new project is now created!"
-  }));
   
-  ProjectNotification.insertMany(notificationsList)
-  .then(()=>{
-    io.emit('branch-managers-channel',{message: 'A new project is now created!'})
-    res.json({message: " A new notification is sent "});
-  })
-  .catch( ()=>{
-    res.json({ message: "Error during sending notifications "});
-  })
+  ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager' });
+  res.json({message: " A new notification is sent "});  
   
 });
 
