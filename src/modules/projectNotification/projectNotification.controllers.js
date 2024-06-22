@@ -29,3 +29,15 @@ if (!updatedProjectNotification) {
 res.json(updatedProjectNotification);
 });
 
+export const getMyNotifications = asyncHandler(async (req, res) => {
+  const { userId } = req.params;
+  
+  const MyNotifications = await ProjectNotification.find({receiver: userId});
+  
+  if (!MyNotifications) {
+    throw new CustomError('You got no notifications', 404);
+  }
+  
+  res.json(MyNotifications);
+  });
+  

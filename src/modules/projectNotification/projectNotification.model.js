@@ -19,6 +19,10 @@ const projectNotificationSchema = new mongoose.Schema({
     type: String,
     default: 'N/A'
   },
+  redirectURL: {
+    type: String,
+    default: '/'
+  },
 },
 { 
   timestamps: true,
