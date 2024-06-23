@@ -55,11 +55,16 @@ export const deleteProject = asyncHandler(async (req, res) => {
 
 export const assignProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
-  const { departments, employees } = req.body;
+  const { departments, employees, hoursExpectedToComplete } = req.body;
 
   const project = await Project.findById(projectId);
   if (!project) {
     throw new CustomError('Project not found', 404);
+  }
+
+  // Update hoursExpectedToComplete
+  if (hoursExpectedToComplete !== undefined) {
+    project.hoursExpectedToComplete = hoursExpectedToComplete;
   }
 
   // Assign departments by name
@@ -75,34 +80,20 @@ export const assignProject = asyncHandler(async (req, res) => {
     }
   }
 
-  // Assign employees and hours by name or type
+  // Assign employees and hours by username
   if (employees && Array.isArray(employees)) {
-    for (const { employeeName, employeeType, hoursWorked } of employees) {
-      const query = {};
-      if (employeeName) {
-        const [firstName, ...lastNameParts] = employeeName.split(' ');
-        query.firstName = firstName.toLowerCase();
-        query.lastName = lastNameParts.join(' ').toLowerCase();
-      }
-      if (employeeType) query.jobLevel = employeeType;
-
-      const employee = await User.findOne(query);
+    for (const { username, hoursWorked } of employees) {
+      const employee = await User.findOne({ username: username.toLowerCase() });
       if (!employee) {
-        throw new CustomError(`Employee not found: ${employeeName || employeeType}`, 404);
+        throw new CustomError(`Employee not found: ${username}`, 404);
       }
 
-      let projectEmployee = await ProjectEmployee.findOne({ project: projectId, employee: employee._id });
-      if (!projectEmployee) {
-        projectEmployee = new ProjectEmployee({
-          project: projectId,
-          employee: employee._id,
-          hoursWorked
-        });
+      const existingAssignment = project.employees.find(e => e.employee.equals(employee._id));
+      if (existingAssignment) {
+        existingAssignment.hoursWorked = hoursWorked;
       } else {
-        projectEmployee.hoursWorked = hoursWorked;
+        project.employees.push({ employee: employee._id, hoursWorked });
       }
-
-      await projectEmployee.save();
     }
   }
 
