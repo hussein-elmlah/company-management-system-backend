@@ -33,7 +33,7 @@ const sendToAll = async ({usersList, project_id, channel, message}) => {
     await ProjectNotification.insertMany(notificationsList)
     io.emit(`${channel}-channel`,{message});
 
-  } else if(typeof usersList === 'string'){    
+  } else{    // receiver object
 
     await ProjectNotification.create({project: project_id, receiver: usersList._id, message})
     io.emit(`${channel}-channel`,{message}) 
@@ -51,7 +51,7 @@ export const sendNotification = async (option, data) => {
 
     role: async ({project_id, role, message}) => { 
       const usersList = await User.find({ "role": role });
-      return await sendToAll({usersList, project_id, channel: role, message});
+      await sendToAll({usersList, project_id, channel: role, message});
     },
 
     department: async ({project_id, department}) => {       
@@ -61,7 +61,7 @@ export const sendNotification = async (option, data) => {
   };
 
   const handler = options[option];
-  return await handler(data);
+  handler(data);
 };
 
 
