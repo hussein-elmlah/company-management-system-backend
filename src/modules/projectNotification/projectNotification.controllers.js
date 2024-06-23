@@ -11,16 +11,6 @@ export const getAllProjectNotifications = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
-/**
- * 
- * params | chaining mongoose methods to end with exec() - get rid of (network requests) or (N+1 query problem).
- * {
- *    receiver: '',   optional
- *    role: '',       optional
- *    department: ''  optional
- * }
- */
-
 const sendToAll = async ({usersList, project_id, channel, message}) => {
 
   if (Array.isArray(usersList)) {
@@ -46,7 +36,7 @@ export const sendNotification = async (option, data) => {
   const options = {
     receiver: async ({project_id, username}) => { 
       const usersList = await User.find({ "username": username });
-      await sendToAll({usersList, project_id, channel: role});
+      await sendToAll({usersList, project_id, channel: username});
     },
 
     role: async ({project_id, role, message}) => { 
@@ -63,13 +53,6 @@ export const sendNotification = async (option, data) => {
   const handler = options[option];
   handler(data);
 };
-
-
-export const createProjectNotification = asyncHandler(async (req, res) => {
-    const notificationInfo = req.body;
-    const newProjectNotification = await ProjectNotification.create(notificationInfo);
-    res.status(201).json(newProjectNotification);
-});
 
 
 export const updateProjectNotification = asyncHandler(async (req, res) => {
