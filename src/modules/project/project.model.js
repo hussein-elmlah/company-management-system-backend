@@ -33,8 +33,8 @@ const projectSchema = new mongoose.Schema(
     priority: { type: Number },
     projectStatus: {
       type: String,
-      enum: ["tracked", "untracked", "deleted"],
-      default: "untracked",
+      enum: ['accepted', 'rejected', 'pending'],
+      default: 'pending'  
     }, // Default is 'untracked'
     location: { type: String },
     planNumber: { type: String },
