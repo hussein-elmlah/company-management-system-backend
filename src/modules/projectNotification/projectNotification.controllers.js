@@ -4,6 +4,7 @@ import CustomError from '../../../lib/customError.js';
 import { handleQueryParams } from '../../../utils/handleQueryParams.js';
 import { io } from '../../../index.js';
 import User from '../user/user.model.js';
+import Department from '../department/department.model.js';
 
 export const getAllProjectNotifications = asyncHandler(async (req, res) => {
   const result = await handleQueryParams(ProjectNotification, req.query, 'name');
@@ -19,40 +20,49 @@ export const getAllProjectNotifications = asyncHandler(async (req, res) => {
  *    department: ''  optional
  * }
  */
-export const sendNotification = (option, data) => {
+
+const sendToAll = async ({usersList, project_id, channel, message}) => {
+
+  if (Array.isArray(usersList)) {
+    const notificationsList = usersList.map( user => ({
+      project: project_id,
+      receiver: user._id,
+      message
+    }));
+    
+    await ProjectNotification.insertMany(notificationsList)
+    io.emit(`${channel}-channel`,{message});
+
+  } else if(typeof usersList === 'string'){    
+
+    await ProjectNotification.create({project: project_id, receiver: usersList._id, message})
+    io.emit(`${channel}-channel`,{message}) 
+
+  }
+}
+
+export const sendNotification = async (option, data) => {
   
   const options = {
-
-    receiver: (param) => { 
-      console.log('Handling option1 with', param); 
+    receiver: async ({project_id, username}) => { 
+      const usersList = await User.find({ "username": username });
+      await sendToAll({usersList, project_id, channel: role});
     },
 
-    role: async ({project_id, role}) => { 
-      const branchManagers = await User.find({ "role": role });
-      const notificationsList = branchManagers.map( manager => ({
-        project: project_id,
-        receiver: manager._id,
-        message: "A new project is now created!"
-      }));
-      
-        await ProjectNotification.insertMany(notificationsList)
-        io.emit('branch-managers-channel',{message: 'A new project is now created!'}) 
+    role: async ({project_id, role, message}) => { 
+      const usersList = await User.find({ "role": role });
+      return await sendToAll({usersList, project_id, channel: role, message});
     },
 
-    department: (param) => { 
-      console.log('Handling option3 with', param); 
+    department: async ({project_id, department}) => {       
+      const usersList = await Department.find({ "name": department });
+      await sendToAll({usersList, project_id, channel: department});
     }
-
   };
 
   const handler = options[option];
-  handler(data);
+  return await handler(data);
 };
-
-// Usage
-// sendNotification('receiver', { project_id: '', role: 'branchManager' });
-// sendNotification('role', );
-// sendNotification('department', [1, 2, 3]);
 
 
 export const createProjectNotification = asyncHandler(async (req, res) => {

@@ -38,18 +38,9 @@ export const createProject = asyncHandler(async (req, res) => {
   const newProject = await Project.create(projectData);
   
   //TODO: remove project from notification schema
-  //TODO: asbtract to achieve SRP () role - role
-  /**
-   * params | chaining mongoose methods to end with exec() - get rid of (network requests) or (N+1 query problem).
-   * {
-   *    receiver: '',   optional
-   *    role: '',       optional
-   *    department: ''  optional
-   * }
-  */
- 
+  //TODO: asbtract to achieve SRP () role - role 
   
-  ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager' });
+  await ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager', message: "Hello" });
   res.json({message: " A new notification is sent "});  
   
 });
