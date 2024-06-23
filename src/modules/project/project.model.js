@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
   {
-    // _id: { type: mongoose.Schema.Types.ObjectId },
     client: {
       user: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,9 +19,6 @@ const projectSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    participatingDepartments: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
-    ],
     hoursExpectedPerDepartment: { type: Map, of: Number },
     annex: {
       upper: { type: Boolean, default: false },
@@ -46,11 +42,10 @@ const projectSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ["villa", "residential", "administrative", "commercial", "other"],
-    }, // Enum values for 'type'
+    }, 
     numberOfFloors: { type: Number },
     buildingArea: { type: Number },
     totalBuildingArea: { type: Number },
-    hoursExpectedToComplete: { type: Number },
     expectedStartDate: { type: Date },
     actualStartDate: { type: Date },
     expectedCompletionDate: { type: Date },
