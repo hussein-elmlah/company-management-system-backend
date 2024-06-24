@@ -1,4 +1,5 @@
 import CustomError from "../lib/customError.js";
+import Department from "../src/modules/department/department.model.js";
 
 export const handleQueryParams = async (model, queryParams, searchField) => {
   const {
@@ -6,8 +7,9 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
     limit = 10,
     order,
     search,
-    timelinestart,
-    timelineend,
+    timeline_start,
+    timeline_end,
+    department,
     ...filters
   } = queryParams;
 
@@ -22,22 +24,22 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
   let filterConditions = {};
 
   // Filter conditions based on expectedCompletionDate or expectedStartDate
-  if (timelinestart && timelineend && timelinestart <= timelineend) {
+  if (timeline_start && timeline_end && timeline_start <= timeline_end) {
     filterConditions.$or = [
       {
         expectedCompletionDate: {
-          $gte: new Date(timelinestart),
-          $lte: new Date(timelineend),
+          $gte: new Date(timeline_start),
+          $lte: new Date(timeline_end),
         },
       },
       {
         expectedStartDate: {
-          $gte: new Date(timelinestart),
-          $lte: new Date(timelineend),
+          $gte: new Date(timeline_start),
+          $lte: new Date(timeline_end),
         },
       },
     ];
-  } else if (timelinestart && timelineend && timelinestart > timelineend) {
+  } else if (timeline_start && timeline_end && timeline_start > timeline_end) {
     throw new CustomError("Invalid timeline parameters", 400);
   }
 
@@ -50,8 +52,16 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
   }
 
   Object.keys(filters).forEach((param) => {
-    filterConditions[param] = filters[param];
+    filterConditions[param] = { $regex: new RegExp(filters[param], "i") };
   });
+
+  if (department) {
+    const departmentDoc = await Department.findOne({ name: new RegExp(`^${department}$`, "i") });
+    if (!departmentDoc) {
+      throw new CustomError("Department not found", 404);
+    }
+    filterConditions.participatingDepartments = { $in: [departmentDoc._id] };
+  }
 
   const startIndex = (parsedPage - 1) * parsedLimit;
 
