@@ -33,7 +33,7 @@ export const createProject = asyncHandler(async (req, res) => {
   projectData.client.user = decoded.id;
   const newProject = await Project.create(projectData);
    
-  await ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager', message: "Hello" });
+  await ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager', message: "trial message" });
   res.json({message: " A new notification is sent "});  
 });
 
@@ -59,6 +59,7 @@ export const deleteProject = asyncHandler(async (req, res) => {
 
   res.json({ message: 'Project deleted successfully' });
 });
+
 
 export const assignProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
