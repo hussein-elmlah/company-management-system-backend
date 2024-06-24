@@ -19,7 +19,7 @@ router.get('/allUsers', userController.getAllUsers);
 
 router.get('/:id', userController.getUserById);
 
-// router.get('/', userController.getUserProfile);
+router.get('/', isAuth, userController.getUserProfile);
 
 router.put('/:id', userController.updateUserProfile);
 
