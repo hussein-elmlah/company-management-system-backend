@@ -253,6 +253,14 @@ export const getUserById = asyncHandler(async (req, res) => {
   res.json({ user });
 });
 
+export const getUserProfile = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId).select('-password');
+  if (!user) {
+    throw new CustomError('User not found', 404);
+  }
+  res.json(user);
+});
 
 export const updateUserProfile = asyncHandler(async (req, res) => {
   const { id } = req.params;

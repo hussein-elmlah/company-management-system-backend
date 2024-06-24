@@ -4,7 +4,7 @@ import * as ProjectNotificationController from './projectNotification.controller
 const router = express.Router();
 
 router.get('/', ProjectNotificationController.getAllProjectNotifications);
-router.post('/', ProjectNotificationController.createProjectNotification);
+// router.post('/', ProjectNotificationController.createProjectNotification);
 router.put('/:notificationId', ProjectNotificationController.updateProjectNotification);
 
 // get my notifications
