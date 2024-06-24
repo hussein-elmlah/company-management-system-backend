@@ -59,7 +59,7 @@ export const updateUserProjectNotification = asyncHandler(async (req, res) => {
 const { userId } = req.params;
 const dataToBeUpdatedWith = req.body;
 
-const updatedProjectNotification = await ProjectNotification.updateMany({receiver: userId}, dataToBeUpdatedWith);
+const updatedProjectNotification = await ProjectNotification.updateMany({receiver: userId, isRead: false}, dataToBeUpdatedWith);
 io.emit(`branchManager-channel`, 'updated') ;
 
 res.json({message: "done"});
