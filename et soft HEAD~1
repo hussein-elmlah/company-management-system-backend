@@ -1,0 +1,289 @@
+[33mcommit 0c816dacf0d7684a99c9d978c2a27802bd0b788e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/integration-improvements[m[33m, [m[1;31morigin/feature/integration-improvements[m[33m)[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Mon Jun 24 18:10:18 2024 +0300
+
+    Feat: Enhance handleQueryParams utility to handle filtering by time period by dates
+
+[33mcommit 67fe76691848e90a05c3cbf2c2933316d4d70cd1[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 8ff32c0 2ac2cc9
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Mon Jun 24 14:53:13 2024 +0300
+
+    Merge branch 'main' of https://github.com/hussein-elmlah/company-management-system-backend
+
+[33mcommit 8ff32c06d33d6caee9e031a79fe735baa7bbde6f[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Mon Jun 24 14:51:38 2024 +0300
+
+    feat: mark as read endpoint
+
+[33mcommit 2ac2cc931366ca83318598324c10069d65eab5fb[m
+Merge: a3e0506 4d1ae97
+Author: Hussein Elmlah <147069168+hussein-elmlah@users.noreply.github.com>
+Date:   Mon Jun 24 12:25:58 2024 +0300
+
+    Merge pull request #1 from hussein-elmlah/feature/integration-improvements
+    
+    Implement route for getting logged user data
+
+[33mcommit 4d1ae9786008b21e989c9a3ee07e24cab793305e[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Mon Jun 24 09:11:10 2024 +0300
+
+    Implement route for getting logged user data
+
+[33mcommit a3e05066a6ec53824b0d4c93e9d7f6cc0486e97f[m[33m ([m[1;31morigin/feature/user[m[33m, [m[1;32mfeature/upload-files[m[33m)[m
+Merge: cf5ffaf d87a934
+Author: EngAlaaKamal <alaa.kamal.ghonem@gmail.com>
+Date:   Mon Jun 24 08:57:31 2024 +0300
+
+    Resolved merge conflicts
+
+[33mcommit cf5ffafdf93180f5a4ec589a9506e1c6ca6c2be0[m
+Author: EngAlaaKamal <alaa.kamal.ghonem@gmail.com>
+Date:   Mon Jun 24 08:36:26 2024 +0300
+
+    Added password reset functionality and verification email
+
+[33mcommit d87a9349256c495433911bb21fb61fe8837352eb[m
+Merge: 654c1a2 65e3d77
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sun Jun 23 22:01:30 2024 +0300
+
+    merge branch 'feature/branch-manager' into main
+
+[33mcommit 65e3d77559dce4a5ee4cd6d59f17410ce1d34848[m[33m ([m[1;31morigin/feature/branch-manager[m[33m)[m
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sun Jun 23 21:55:49 2024 +0300
+
+    feat:fixing logical issues
+
+[33mcommit 654c1a2eeced1acc2afec720ed004152e0f47ca8[m
+Merge: 4fd80ab 39421a2
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sun Jun 23 18:00:04 2024 +0300
+
+    Merge branch 'main'
+
+[33mcommit 4fd80ab2b1b047bea9510765a506535d2bdd26b5[m
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sun Jun 23 17:58:12 2024 +0300
+
+    merge branch 'feature/branch-manager' into main
+
+[33mcommit 39421a2ee18edd443385b3a4169284e5930b3ac3[m
+Merge: 581ae0c 27c2977
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 17:55:00 2024 +0300
+
+    Merge branch 'feature/notifications'
+
+[33mcommit 27c29770186fe2b72f5523df055211e1acf830f4[m[33m ([m[1;31morigin/feature/notifications[m[33m)[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 16:24:04 2024 +0300
+
+    removed unwanted code from project model and notification controller
+
+[33mcommit 621840dd9568c2615f9b586e00f81c1001a3703a[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 15:21:11 2024 +0300
+
+    fix: sending notification utility
+
+[33mcommit 8288fb6d82206188da78fca278eeedc7b53fb242[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 03:21:54 2024 +0300
+
+    generic sending notification utility
+
+[33mcommit cea55067b5f093243ba359332c7a8aa59256414f[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 02:43:24 2024 +0300
+
+    abstracted sending notification mechanism
+
+[33mcommit bea155620f5987304d193615bec6d882354d2dd5[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 02:06:09 2024 +0300
+
+    fix: (stuck) infinte sending request in postman
+
+[33mcommit e9170bdacaa43d8ff3b7f2be98eda8c08403ec7e[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 01:34:14 2024 +0300
+
+    refactored one request instead of multiple ones for inserting data inside notification db
+    
+    - insertMany() ✅  create() ❌
+
+[33mcommit 5b8d1630af18df43d7fc92cfc7a251ada0c47078[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sun Jun 23 01:18:38 2024 +0300
+
+    feat: socket io server setup and notification saving into db with io emit
+
+[33mcommit 45e71952c5a177224b7125439bd3c1d61d2983c2[m
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sat Jun 22 23:37:44 2024 +0300
+
+    feat:assign depatments,working hours and employees to a project
+
+[33mcommit 0a6b6a0a3c4293b6b73150bef61d301879a528bf[m
+Author: esraamagddi <esraamagdy20133@gmail.com>
+Date:   Sat Jun 22 20:58:56 2024 +0300
+
+    feat:changing project status
+
+[33mcommit a996984520a2938bb001249c63bb34b65e827717[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sat Jun 22 11:26:03 2024 +0300
+
+    feat: redirect to URL field and a new endpoint to fetch current logged in user notifications
+
+[33mcommit cf4ca25cb6c8a3c806b9ca4562cc5cd0ddcac2ea[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Sat Jun 22 10:59:11 2024 +0300
+
+    feat: project notification module
+    
+    - routes
+    - models
+    - controllers
+
+[33mcommit 581ae0c140d207bba8251020069ea8f54e181916[m[33m ([m[1;32mmain[m[33m)[m
+Author: EngAlaaKamal <alaa.kamal.ghonem@gmail.com>
+Date:   Sat Jun 22 04:15:01 2024 +0300
+
+    fix login
+
+[33mcommit 339e7d702b0036a7981d33722243a958990b75da[m
+Author: EngAlaaKamal <alaa.kamal.ghonem@gmail.com>
+Date:   Wed Jun 19 22:34:30 2024 +0300
+
+    fix routes of user
+
+[33mcommit 61eb4f4422fc6778c6ba9b7171f3270e7bd3b6f2[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Wed Jun 19 15:26:12 2024 +0300
+
+    feat: notification endpoints | working version
+
+[33mcommit c3ffdd944c670c4a528182e0eb2c500881d80d37[m
+Author: EngAlaaKamal <alaa.kamal.ghonem@gmail.com>
+Date:   Wed Jun 19 05:07:56 2024 +0300
+
+    add user module
+
+[33mcommit ac4eed1a972f170741eb8e7d10f09a81bab15f9a[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Wed Jun 19 03:19:50 2024 +0300
+
+    feat: users module and protected projects routes
+
+[33mcommit ba5b22e409062636cfd59b6ba57fa82b01b2d90a[m
+Author: AbdelrahmanElsheikh965 <abdoelsheikh892@gmail.com>
+Date:   Wed Jun 19 02:02:23 2024 +0300
+
+    feat: updated deps and restructure some files
+
+[33mcommit 41ddd31b8974202a6ed2c04a9110eef12242f973[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 04:02:18 2024 +0300
+
+    Add ProjectEmployee routes and controllers
+
+[33mcommit 65ab7b0f7e56377b5436a62f733cad4548ccd90b[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 04:01:25 2024 +0300
+
+    Add ProjectEmployee model
+
+[33mcommit 7e1586681010af2ebdffeb16ea3c068296d935a4[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 04:00:52 2024 +0300
+
+    Add Department routes and controllers
+
+[33mcommit fcc676804e12ec6119236fb9b4038a3ccebb1006[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 03:48:07 2024 +0300
+
+    Add Department model
+
+[33mcommit f1a8061e8b1499b3f0f5181ec65b830af749ae31[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 03:16:01 2024 +0300
+
+    Add Project routes and controllers
+
+[33mcommit e51b6dedd68aea31e3c126ceeee2737cfa6ee62e[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 03:07:20 2024 +0300
+
+    Add Project model
+
+[33mcommit 2bf0a08934fe0466636fd29f598b50ac61f131b0[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 03:00:09 2024 +0300
+
+    Add hashFunction and compareFunction for password hashing and comparison using bcrypt
+
+[33mcommit 93bb3cee6e27d880c7de262f7d8ccee5c75e19ae[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:55:20 2024 +0300
+
+    Implement user authentication middleware to verify JWT token
+
+[33mcommit de30ec5e0aced7292b5f35bc443fcf7c05fef095[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:53:38 2024 +0300
+
+    Add jwtUtils.js with generateTokenUser function for JWT token generation
+
+[33mcommit 3daa0e653a0b1c9a71a85d123a84dcbdb7480f57[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:48:50 2024 +0300
+
+    Implement handleQueryParams function for handling pagination, filtering, and sorting, fuzzy search with error handling
+
+[33mcommit ef5bc60dc5978f9fe42045c77017e04a298e7225[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:25:30 2024 +0300
+
+    Add public folder and static file serving, implement 404 not found page
+
+[33mcommit 09913b24d144b1da2dcafe74d9b801e7d79e2405[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:23:19 2024 +0300
+
+    Implement file upload handler for images and file types
+
+[33mcommit 4704fb7b5e97501d40d50528bfb509ccb9090852[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:19:31 2024 +0300
+
+    Add asyncHandler function
+
+[33mcommit f92fe1cd9c2ad636a97de05b17d90b3d6b8b3b9b[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:17:50 2024 +0300
+
+    Add custom error handling module and middleware for centralized error management
+
+[33mcommit 0f8f328ab635ab964fe632f77151378d9259f8aa[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 02:03:25 2024 +0300
+
+    Update linter configurations
+
+[33mcommit 3037c976b576a8829859af494bd6bb19139708b9[m
+Author: hussein-elmlah <husseinelmlah11@gmail.com>
+Date:   Tue Jun 18 01:52:13 2024 +0300
+
+    Add basic structure and files, index, .env, dbconnection , routes entery point file
+
+[33mcommit 64c661547e2e53d4f70faafee89dac82c50a65dd[m
+Author: Hussein Elmlah <147069168+hussein-elmlah@users.noreply.github.com>
+Date:   Tue Jun 18 02:23:19 2024 +0300
+
+    Initial commit

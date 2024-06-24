@@ -11,10 +11,4 @@ router.put('/:projectId', projectController.updateProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/assign', projectController.assignProject);
 
-
-
- 
-  
-  
-
 export default router;
