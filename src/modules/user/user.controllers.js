@@ -62,6 +62,7 @@ export const register = asyncHandler(async (req, res) => {
     lastName,
     dateOfBirth,
     address,
+    role,
     jobLevel,
     mobileNumber,
     contract,
@@ -78,6 +79,7 @@ export const register = asyncHandler(async (req, res) => {
     lastName,
     dateOfBirth,
     address,
+    role,
     jobLevel,
     mobileNumber,
     contract,
@@ -251,10 +253,8 @@ export const getUserById = asyncHandler(async (req, res) => {
   res.json({ user });
 });
 
- 
 
 export const updateUserProfile = asyncHandler(async (req, res) => {
-  
   const { id } = req.params;
   const updatedFields = req.body;
   const user = await User.findByIdAndUpdate(id, updatedFields, {
@@ -270,6 +270,7 @@ export const deleteUser = asyncHandler(async (req, res) => {
   
   const { id } = req.params;
   const user = await User.findByIdAndDelete(id);
+  
   if (!user) {
     throw new CustomError('User not found', 404);
   }
