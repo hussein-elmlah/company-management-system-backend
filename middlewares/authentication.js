@@ -5,7 +5,7 @@ import User from '../src/modules/user/user.model.js';
 import CustomError from '../lib/customError.js';
 
 export const isAuth = asyncHandler(async (req, res, next) => {
-  const token = req.header('token');
+  const { authorization: token } = req.headers;
   if (!token) {
     throw new CustomError('You are not authenticated, please login', 403);
   }

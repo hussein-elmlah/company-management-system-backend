@@ -11,7 +11,7 @@ const projectEmployeeSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  hoursWorked: {
+  hoursWorked: {//discared
     type: Number,
     default: 0
   },

@@ -34,6 +34,14 @@ const userSchema = new mongoose.Schema(
       validate: [validator.isMobilePhone, "Please enter a valid phone number"],
        
     },
+
+
+    isVerified: { type: Boolean, default: false },
+    verificationToken: { type: String },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
+
+
     email: {
       type: String,
       unique: true,
