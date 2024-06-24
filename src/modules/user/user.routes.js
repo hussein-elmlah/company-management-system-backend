@@ -8,6 +8,13 @@ router.post('/register', userController.register);
 
 router.post('/login', userController.login);
 
+router.get('/verify-email', userController.verifyEmail);
+router.post('/forgot-password', userController.forgotPassword);
+router.post('/reset-password', userController.resetPassword);
+
+
+
+
 router.get('/allUsers', userController.getAllUsers);
 
 router.get('/:id', userController.getUserById);

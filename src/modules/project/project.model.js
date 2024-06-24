@@ -31,11 +31,12 @@ const projectSchema = new mongoose.Schema(
     name: { type: String },
     number: { type: Number },
     priority: { type: Number },
+    
     projectStatus: {
       type: String,
-      enum: ["tracked", "untracked", "deleted"],
-      default: "untracked",
-    }, // Default is 'untracked'
+      enum: ["accepted", "rejected", "pending"],
+      default: "pending",
+    },
     location: { type: String },
     planNumber: { type: String },
     plotNumber: { type: String },
@@ -50,7 +51,9 @@ const projectSchema = new mongoose.Schema(
     numberOfFloors: { type: Number },
     buildingArea: { type: Number },
     totalBuildingArea: { type: Number },
+
     hoursExpectedToComplete: { type: Number },
+
     expectedStartDate: { type: Date },
     actualStartDate: { type: Date },
     expectedCompletionDate: { type: Date },
