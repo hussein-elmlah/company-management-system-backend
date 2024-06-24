@@ -55,17 +55,14 @@ export const sendNotification = async (option, data) => {
 };
 
 
-export const updateProjectNotification = asyncHandler(async (req, res) => {
-const { notificationId } = req.params;
-const updatedFields = req.body;
+export const updateUserProjectNotification = asyncHandler(async (req, res) => {
+const { userId } = req.params;
+const dataToBeUpdatedWith = req.body;
 
-const updatedProjectNotification = await ProjectNotification.findByIdAndUpdate(notificationId, updatedFields, { new: true });
+const updatedProjectNotification = await ProjectNotification.updateMany({receiver: userId}, dataToBeUpdatedWith);
+io.emit(`branchManager-channel`, 'updated') ;
 
-if (!updatedProjectNotification) {
-  throw new CustomError('ProjectNotification not found', 404);
-}
-
-res.json(updatedProjectNotification);
+res.json({message: "done"});
 });
 
 export const getMyNotifications = asyncHandler(async (req, res) => {

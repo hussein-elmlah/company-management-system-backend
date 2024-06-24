@@ -19,7 +19,7 @@ export const register = asyncHandler(async (req, res) => {
     mobileNumber,
     contract,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const hashedPassword = await hashFunction({ plainText: password });
   const newUser = await User.create({
     username,
@@ -80,7 +80,7 @@ export const getAllUsers = asyncHandler(async (req, res) => {
     users,
     usersCount,
   );
-  console.log(paginatedUsers);
+  // console.log(paginatedUsers);
   res.json({
     users: paginatedUsers,
     usersCount,
