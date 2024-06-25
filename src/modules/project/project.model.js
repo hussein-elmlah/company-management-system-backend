@@ -11,8 +11,8 @@ const projectSchema = new mongoose.Schema(
       mobileNumber: { type: String },
     },
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      fullName: { type: String },
+      mobileNumber: { type: String },
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
