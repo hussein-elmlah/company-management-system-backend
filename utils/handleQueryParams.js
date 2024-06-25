@@ -1,7 +1,7 @@
 import CustomError from "../lib/customError.js";
 import Department from "../src/modules/department/department.model.js";
 
-export const handleQueryParams = async (model, queryParams, searchField) => {
+export const handleQueryParams = async (model, queryParams, defaultSearchField) => {
   const {
     page = 1,
     limit = 10,
@@ -10,6 +10,7 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
     timeline_start,
     timeline_end,
     department,
+    searchField,
     ...filters
   } = queryParams;
 
@@ -23,7 +24,6 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
 
   let filterConditions = {};
 
-  // Filter conditions based on expectedCompletionDate or expectedStartDate
   if (timeline_start && timeline_end && timeline_start <= timeline_end) {
     filterConditions.$or = [
       {
@@ -43,11 +43,14 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
     throw new CustomError("Invalid timeline parameters", 400);
   }
 
-  if (search && searchField) {
+  // Override defaultSearchField if searchField is provided in queryParams
+  const effectiveSearchField = searchField || defaultSearchField;
+
+  if (search && effectiveSearchField) {
     const searchRegex = new RegExp(search, "i");
-    filterConditions[searchField] = { $regex: searchRegex };
+    filterConditions[effectiveSearchField] = { $regex: searchRegex };
   }
-  if (search && !searchField) {
+  if (search && !effectiveSearchField) {
     throw new CustomError("Invalid search parameters", 400);
   }
 
@@ -71,7 +74,7 @@ export const handleQueryParams = async (model, queryParams, searchField) => {
     const sortOrder = order.startsWith("-") ? -1 : 1;
     const field = order.replace(/^-/, "");
 
-    if (Object.keys(model.schema.paths).includes(field)) {
+    if (Object.keys(model.schema.paths).includes(field) || field.includes(".")) {
       const sortObject = {};
       sortObject[field] = sortOrder;
       query = query.sort(sortObject);
