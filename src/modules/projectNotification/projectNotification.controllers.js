@@ -15,7 +15,7 @@ const sendToAll = async ({usersList, project_id, channel, message}) => {
 
   if (Array.isArray(usersList)) {
     const notificationsList = usersList.map( user => ({
-      project: project_id,
+      ...(project_id && { project: project_id }),
       receiver: user._id,
       message
     }));
@@ -39,7 +39,7 @@ export const sendNotification = async (option, data) => {
       await sendToAll({usersList, project_id, channel: username});
     },
 
-    role: async ({project_id, role, message}) => { 
+    role: async ({project_id = null, role, message}) => { 
       const usersList = await User.find({ "role": role });
       await sendToAll({usersList, project_id, channel: role, message});
     },

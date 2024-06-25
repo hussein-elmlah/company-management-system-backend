@@ -33,7 +33,12 @@ export const createProject = asyncHandler(async (req, res) => {
   projectData.client.user = decoded.id;
   const newProject = await Project.create(projectData);
    
-  await ProjectNotificationController.sendNotification('role', { project_id: newProject._id, role: 'branchManager', message: "trial message" });
+  await ProjectNotificationController.sendNotification('role', { 
+      project_id: newProject._id,
+      role: 'branchManager',
+      message: "A new project is created" 
+    });
+
   res.json({message: " A new notification is sent "});  
 });
 
