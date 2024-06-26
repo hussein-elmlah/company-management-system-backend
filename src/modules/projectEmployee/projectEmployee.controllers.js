@@ -2,6 +2,9 @@ import ProjectEmployee from './projectEmployee.model.js';
 import asyncHandler from '../../../lib/asyncHandler.js';
 import CustomError from '../../../lib/customError.js';
 import { handleQueryParams } from '../../../utils/handleQueryParams.js';
+import User from '../user/user.model.js';
+import Project from '../project/project.model.js';
+ 
 
 // @desc    Get all project employees
 // @route   GET /project-employees
@@ -56,3 +59,44 @@ export const deleteProjectEmployee = asyncHandler(async (req, res) => {
   }
   res.json({ message: 'Project employee deleted successfully' });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+// جلب جميع الموظفين الذين لديهم دور "senior" ولم يتم تعيينهم لمشروع معين ومصفاة حسب القسم
+export const getAvailableSeniorEmployeesByDepartment = asyncHandler(async (req, res) => {
+  const { departmentId } = req.params;
+
+  // جلب جميع الموظفين الذين لديهم دور "senior" ومصفاة حسب القسم
+  const allSeniorEmployees = await User.find({
+    role: 'senior',
+    department: departmentId,
+  });
+
+  // جلب جميع المشاريع التي تحتوي على موظفين
+  const projects = await Project.find({}, 'employees');
+
+  // استخراج معرفات الموظفين المعينين
+  const assignedEmployeeIds = projects.reduce((acc, project) => {
+    const projectEmployeeIds = project.employees.map((e) => e.employee.toString());
+    return acc.concat(projectEmployeeIds);
+  }, []);
+
+  // تصفية الموظفين الذين لم يتم تعيينهم لمشروع
+  const availableSeniorEmployees = allSeniorEmployees.filter(
+    (employee) => !assignedEmployeeIds.includes(employee._id.toString())
+  );
+
+  res.status(200).json(availableSeniorEmployees);
+});
+

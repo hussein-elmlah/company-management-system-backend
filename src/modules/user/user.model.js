@@ -3,6 +3,10 @@ import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
+    department: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Department',
+    },
     username: {
       type: String,
       unique: true,

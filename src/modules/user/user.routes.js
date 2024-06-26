@@ -17,11 +17,12 @@ router.post('/reset-password', userController.resetPassword);
 
 router.get('/allUsers', userController.getAllUsers);
 
-router.get('/:id', userController.getUserById);
+router.get('/:userId', userController.getUserById);
 
-router.get('/', isAuth, userController.getUserProfile);
+// router.get('/', isAuth, userController.getUserProfile);
+router.get('/',  userController.getUserProfile);
 
-router.put('/:id', userController.updateUserProfile);
+router.put('/:userId', userController.updateUserProfile);
 
 router.delete('/:id', userController.deleteUser);
 

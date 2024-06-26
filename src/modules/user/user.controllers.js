@@ -244,8 +244,8 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 export const getUserById = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const user = await User.findById(id);
+  const { userId } = req.params;
+  const user = await User.findById(userId);
   if (!user) {
     throw new CustomError('User not found', 404);
   }
@@ -263,9 +263,11 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 export const updateUserProfile = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { userId } = req.params;
   const updatedFields = req.body;
-  const user = await User.findByIdAndUpdate(id, updatedFields, {
+  console.log('Received params:', req.params);
+  console.log('Received body:', req.body);
+  const user = await User.findByIdAndUpdate(userId, updatedFields, {
     new: true,
   });
   if (!user) {
