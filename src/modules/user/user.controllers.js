@@ -62,11 +62,15 @@ export const register = asyncHandler(async (req, res) => {
   const verificationToken = crypto.randomBytes(32).toString('hex');
   console.log(verificationToken);
   if (type == "employee") {
-    await sendNotification('role', {
-      role: 'branchManager',
-      message: `A new employee user has
-        just signed up!
-        give him a role` 
+    await sendNotification(
+      {
+        option: 'role',
+        data: {
+        role: 'branchManager',
+        message: `A new employee user has
+          just signed up!
+          give him a role` 
+        }
     });
   }
   const newUser = await User.create({
