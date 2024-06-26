@@ -42,7 +42,9 @@ const sendEmail = (to, subject, text) => {
 };
 
 export const register = asyncHandler(async (req, res) => {
-   
+  
+  console.log("req", req.body);
+
   const {
     username,
     password,
@@ -57,22 +59,12 @@ export const register = asyncHandler(async (req, res) => {
     contract,
     type
   } = req.body;
+
+  console.log("type: ", type);
   
   const hashedPassword = await hashFunction({ plainText: password });
   const verificationToken = crypto.randomBytes(32).toString('hex');
-  console.log(verificationToken);
-  if (type == "employee") {
-    await sendNotification(
-      {
-        option: 'role',
-        data: {
-        role: 'branchManager',
-        message: `A new employee user has
-          just signed up!
-          give him a role` 
-        }
-    });
-  }
+
   const newUser = await User.create({
     username,
     password: hashedPassword,
@@ -88,7 +80,23 @@ export const register = asyncHandler(async (req, res) => {
     isVerified: false,
     verificationToken,
   });
-  sendEmail(newUser.email, 'Email Verification', `Please verify your email by clicking the following link: http://localhost:5173/verify-email?token=${verificationToken}`);
+
+  if (type == "employee") {
+    console.log("okaaaaaaaaaaaaaaaaaaaaaaaaay");
+    await sendNotification(
+      {
+        option: 'role',
+        data: {
+        role: 'branchManager',
+        message: `A new employee user has
+          just signed up!
+          give him a role` ,
+        redirectURL: `/updaterole/${newUser._id}`
+        }
+    });
+  }
+
+  // sendEmail(newUser.email, 'Email Verification', `Please verify your email by clicking the following link: http://localhost:5173/verify-email?token=${verificationToken}`);
   res.status(201).json({ message: 'User registered successfully, please check your email to verify your account.', newUser });
 });
 ////////////////////////////////////
