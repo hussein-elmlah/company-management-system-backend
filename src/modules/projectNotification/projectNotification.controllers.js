@@ -27,7 +27,7 @@ const sendToAll = async ({usersList, project_id, channel, message, redirectURL =
 
   } else{    // receiver object
 
-    await ProjectNotification.create({project: project_id, receiver: usersList, message})
+    await ProjectNotification.create({project: project_id, receiver: usersList, message, redirectURL})
     io.emit(`${channel}-channel`,{message}) 
 
   }
@@ -36,9 +36,9 @@ const sendToAll = async ({usersList, project_id, channel, message, redirectURL =
 export const sendNotification = async ({option, data}) => {
   
   const options = {
-    receiver: async ({project_id, message}) => { 
+    receiver: async ({project_id, message, redirectURL}) => { 
       const usersList =  await Project.findOne({ "_id": project_id }, 'client');
-      await sendToAll({usersList: usersList.client.user, project_id, channel: usersList.client.user, message});
+      await sendToAll({usersList: usersList.client.user, project_id, channel: usersList.client.user, message, redirectURL});
     },
 
     role: async ({project_id = null, role, message, redirectURL}) => { 
