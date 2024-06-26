@@ -9,4 +9,6 @@ router.post('/', projectEmployeeController.createProjectEmployee);
 router.put('/:projectEmployeeId', projectEmployeeController.updateProjectEmployee);
 router.delete('/:projectEmployeeId', projectEmployeeController.deleteProjectEmployee);
 
+router.get('/available-seniors/:departmentId', projectEmployeeController.getAvailableSeniorEmployeesByDepartment);
+
 export default router;

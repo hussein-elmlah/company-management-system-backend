@@ -5,13 +5,15 @@ import departmentRoutes from './modules/department/department.routes.js';
 import ProjectEmployeeRoutes from './modules/projectEmployee/projectEmployee.routes.js';
 import projectNotificationRoutes from './modules/projectNotification/projectNotification.routes.js';
 import userRoutes from './modules/user/user.routes.js';
-
+import contactRoutes from './modules/contact/contact.routes.js';
 const router = express.Router();
 router.use('/users', userRoutes);
 router.use('/projects', projectRoutes);
 router.use('/departments', departmentRoutes);
 router.use('/project-employees', ProjectEmployeeRoutes);
 router.use('/project-notification', projectNotificationRoutes);
+router.use('/contactus',contactRoutes );
+
 
 //upload files routes
 router.post('/uploads/images', uploadSingleImage, (req, res) => {
