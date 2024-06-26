@@ -4,27 +4,16 @@ import asyncHandler from '../../../lib/asyncHandler.js';
 import { hashFunction, compareFunction } from '../../../lib/hashAndCompare.js';
 import { generateTokenUser } from '../../../utils/jwtUtils.js';
 import CustomError from '../../../lib/customError.js';
-
 import express from 'express';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
+import { sendNotification } from '../projectNotification/projectNotification.controllers.js';
+import { io } from '../../../index.js';
+
 dotenv.config();
-
-
- console.log(process.env.GMAIL_USER);
- console.log(process.env.GMAIL_APP_PASSWORD); 
- 
- 
- 
- 
-
- 
-
-
-
-
-
+console.log(process.env.GMAIL_USER);
+console.log(process.env.GMAIL_APP_PASSWORD); 
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -66,11 +55,20 @@ export const register = asyncHandler(async (req, res) => {
     jobLevel,
     mobileNumber,
     contract,
+    type
   } = req.body;
-  // console.log(req.body);
+  
   const hashedPassword = await hashFunction({ plainText: password });
   const verificationToken = crypto.randomBytes(32).toString('hex');
   console.log(verificationToken);
+  if (type == "employee") {
+    await sendNotification('role', {
+      role: 'branchManager',
+      message: `A new employee user has
+        just signed up!
+        give him a role` 
+    });
+  }
   const newUser = await User.create({
     username,
     password: hashedPassword,

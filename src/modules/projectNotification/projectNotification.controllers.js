@@ -5,19 +5,21 @@ import { handleQueryParams } from '../../../utils/handleQueryParams.js';
 import { io } from '../../../index.js';
 import User from '../user/user.model.js';
 import Department from '../department/department.model.js';
+import Project from '../project/project.model.js';
 
 export const getAllProjectNotifications = asyncHandler(async (req, res) => {
   const result = await handleQueryParams(ProjectNotification, req.query, 'name');
   res.json(result);
 });
 
-const sendToAll = async ({usersList, project_id, channel, message}) => {
+const sendToAll = async ({usersList, project_id, channel, message, redirectURL = ''}) => {
 
   if (Array.isArray(usersList)) {
     const notificationsList = usersList.map( user => ({
-      project: project_id,
+      ...(project_id && { project: project_id }),
       receiver: user._id,
-      message
+      message,
+      redirectURL
     }));
     
     await ProjectNotification.insertMany(notificationsList)
@@ -25,23 +27,23 @@ const sendToAll = async ({usersList, project_id, channel, message}) => {
 
   } else{    // receiver object
 
-    await ProjectNotification.create({project: project_id, receiver: usersList._id, message})
+    await ProjectNotification.create({project: project_id, receiver: usersList, message})
     io.emit(`${channel}-channel`,{message}) 
 
   }
 }
 
-export const sendNotification = async (option, data) => {
+export const sendNotification = async ({option, data}) => {
   
   const options = {
-    receiver: async ({project_id, username}) => { 
-      const usersList = await User.find({ "username": username });
-      await sendToAll({usersList, project_id, channel: username});
+    receiver: async ({project_id, message}) => { 
+      const usersList =  await Project.findOne({ "_id": project_id }, 'client');
+      await sendToAll({usersList: usersList.client.user, project_id, channel: usersList.client.user, message});
     },
 
-    role: async ({project_id, role, message}) => { 
+    role: async ({project_id = null, role, message, redirectURL}) => { 
       const usersList = await User.find({ "role": role });
-      await sendToAll({usersList, project_id, channel: role, message});
+      await sendToAll({usersList, project_id, channel: role, message, redirectURL});
     },
 
     department: async ({project_id, department}) => {       
@@ -59,7 +61,7 @@ export const updateUserProjectNotification = asyncHandler(async (req, res) => {
 const { userId } = req.params;
 const dataToBeUpdatedWith = req.body;
 
-const updatedProjectNotification = await ProjectNotification.updateMany({receiver: userId}, dataToBeUpdatedWith);
+const updatedProjectNotification = await ProjectNotification.updateMany({receiver: userId, isRead: false}, dataToBeUpdatedWith);
 io.emit(`branchManager-channel`, 'updated') ;
 
 res.json({message: "done"});
@@ -68,12 +70,22 @@ res.json({message: "done"});
 export const getMyNotifications = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   
-  const MyNotifications = await ProjectNotification.find({receiver: userId});
+  const MyNotifications = await ProjectNotification.find({receiver: userId}).sort({ createdAt: -1 }).limit(7);
   
   if (!MyNotifications) {
     throw new CustomError('You got no notifications', 404);
   }
   
   res.json(MyNotifications);
+});
+
+export const storeNotification = asyncHandler(async (req, res) => {
+
+  const newNotification = await sendNotification(req.body);
+  
+  res.json({
+    message: "Your notification has been sent!"
   });
+
+});
   
