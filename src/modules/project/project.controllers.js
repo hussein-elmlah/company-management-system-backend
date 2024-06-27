@@ -131,3 +131,29 @@ export const assignProject = asyncHandler(async (req, res) => {
   await project.save();
   res.status(200).json({ message: 'Project assignments updated successfully', project });
 });
+
+
+export const addProjectPicture = asyncHandler(async (req, res) => {
+  const { projectId } = req.params;
+  
+  const project = await Project.findById(projectId);
+  if (!project) {
+    throw new CustomError('Project not found', 404);
+  }
+
+  const pictureUrl = req.file.path;
+
+  project.projectPictures.push(pictureUrl);
+  await project.save();
+
+  res.json({ message: 'Picture added successfully', pictureUrl });
+});
+
+export const deleteProjectPicture = asyncHandler(async (req, res) => {
+  const { projectId, pictureId } = req.params;
+
+  project.projectPictures = project.projectPictures.filter((picture) => picture !== pictureId);
+  await project.save();
+
+  res.json({ message: 'Picture deleted successfully', pictureId });
+});
