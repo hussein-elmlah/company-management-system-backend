@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: [true, "Password is required! "] },
     role: {
       type: String,
-      enum: ["client", "junior", "senior", "branchManager", "companyOwner"],
+      enum: ["client", "junior", "senior", "branchManager"],
       required: true,
       default: "client",
     },
@@ -71,11 +71,7 @@ const userSchema = new mongoose.Schema(
       startDate: { type: Date },
       endDate: { type: Date },
       salary: { type: Number },
-    },
-    department: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Department',
-    },
+    }
   },
   { timestamps: true }
 );

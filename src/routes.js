@@ -6,6 +6,7 @@ import ProjectEmployeeRoutes from './modules/projectEmployee/projectEmployee.rou
 import projectNotificationRoutes from './modules/projectNotification/projectNotification.routes.js';
 import userRoutes from './modules/user/user.routes.js';
 import contactRoutes from './modules/contact/contact.routes.js';
+import paymentRoutes from './modules/payment/payment.routes.js';
 const router = express.Router();
 router.use('/users', userRoutes);
 router.use('/projects', projectRoutes);
@@ -13,6 +14,7 @@ router.use('/departments', departmentRoutes);
 router.use('/project-employees', ProjectEmployeeRoutes);
 router.use('/project-notification', projectNotificationRoutes);
 router.use('/contactus',contactRoutes );
+router.use('/payment',paymentRoutes );
 
 
 //upload files routes
