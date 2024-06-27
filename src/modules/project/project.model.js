@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema(
   {
     client: {
       user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
       fullName: { type: String },
       mobileNumber: { type: String },
@@ -16,7 +16,7 @@ const projectSchema = new mongoose.Schema(
     },
     sender: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
     },
     hoursExpectedPerDepartment: { type: Map, of: Number },
     annex: {
@@ -26,11 +26,11 @@ const projectSchema = new mongoose.Schema(
     name: { type: String },
     number: { type: Number },
     priority: { type: Number },
-    
+
     projectStatus: {
       type: String,
-      enum: ['accepted', 'rejected', 'pending'],
-      default: 'pending'
+      enum: ["accepted", "rejected", "pending"],
+      default: "pending",
     },
     location: { type: String },
     planNumber: { type: String },
@@ -40,12 +40,12 @@ const projectSchema = new mongoose.Schema(
     dateOfSubmission: { type: Date },
     program: {
       type: String,
-      enum: ['autocad', 'revit']
+      enum: ["autocad", "revit"],
     },
     type: {
       type: String,
       enum: ["villa", "residential", "administrative", "commercial", "other"],
-    }, 
+    },
     numberOfFloors: { type: Number },
     buildingArea: { type: Number },
     totalBuildingArea: { type: Number },
@@ -60,11 +60,15 @@ const projectSchema = new mongoose.Schema(
     fileLinkFinal: { type: String },
     projectPictures: [{ type: String }],
     description: { type: String },
-    participatingDepartments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Department' }],
-    employees: [
-      { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    participatingDepartments: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
     ],
-    amount: { type: Number }
+    employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    amount: {
+      type: Number,
+      min: [0, "Amount must be positive"],
+      set: (v) => Math.round(v * 100) / 100,
+    },
   },
   {
     timestamps: true,
@@ -72,7 +76,7 @@ const projectSchema = new mongoose.Schema(
   }
 );
 
-projectSchema.set('toJSON', {
+projectSchema.set("toJSON", {
   transform(doc, ret) {
     ret.id = ret._id;
     delete ret._id;
@@ -80,7 +84,7 @@ projectSchema.set('toJSON', {
   },
 });
 
-projectSchema.pre('findOneAndUpdate', async function preUpdate(next) {
+projectSchema.pre("findOneAndUpdate", async function preUpdate(next) {
   try {
     this.options.runValidators = true;
     return next();
@@ -89,6 +93,6 @@ projectSchema.pre('findOneAndUpdate', async function preUpdate(next) {
   }
 });
 
-const Project = mongoose.model('Project', projectSchema);
+const Project = mongoose.model("Project", projectSchema);
 
 export default Project;
