@@ -11,6 +11,7 @@ router.post('/', projectController.createProject);
 router.put('/:projectId', projectController.updateProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/assign', projectController.assignProject);
+router.put('/:projectId/employees', projectController.updateProjectEmployees);
 
 router.post('/:projectId/pictures', uploadSingleImage, projectController.addProjectPicture);
 router.delete('/:projectId/pictures/:pictureId', projectController.deleteProjectPicture);
