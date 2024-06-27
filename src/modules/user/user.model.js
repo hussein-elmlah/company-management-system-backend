@@ -34,9 +34,7 @@ const userSchema = new mongoose.Schema(
     address: { type: String },
     jobLevel: { type: String },
     mobileNumber: {
-      type: String,
-      validate: [validator.isMobilePhone, "Please enter a valid phone number"],
-       
+      type: String,       
     },
 
 

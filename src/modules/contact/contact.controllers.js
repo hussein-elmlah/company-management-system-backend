@@ -15,7 +15,7 @@ export const createContact = asyncHandler(async (req, res) => {
   await contact.save();
   const emailSubject = subject;
   const emailText = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-  await sendEmail(process.env.EMAIL_USER, emailSubject, emailText);
+  await sendEmail(process.env.GMAIL_USER, emailSubject, emailText);
 
   res.status(201).json({ message: 'Message sent successfully' });
 });
