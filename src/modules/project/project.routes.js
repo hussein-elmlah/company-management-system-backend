@@ -10,5 +10,6 @@ router.post('/', /* verifyToken*/  projectController.createProject);
 router.put('/:projectId', projectController.updateProject);
 router.delete('/:projectId', projectController.deleteProject);
 router.put('/:projectId/assign', projectController.assignProject);
+router.put('/:projectId/employees', projectController.updateProjectEmployees);
 
 export default router;

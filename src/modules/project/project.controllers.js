@@ -58,6 +58,20 @@ export const updateProject = asyncHandler(async (req, res) => {
   res.json(updatedProject);
 });
 
+export const updateProjectEmployees = asyncHandler(async (req, res) => {
+  const { projectId } = req.params;
+  const employees     = req.body;
+  console.log(JSON.stringify(employees));
+  const updatedProject = await Project.findByIdAndUpdate(projectId, 
+    { $set: { employees: employees } }, { new: true });
+
+  if (!updatedProject) {
+    throw new CustomError('Project not found', 404);
+  }
+
+  res.json(updatedProject);
+});
+
 export const deleteProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
   const deletedProject = await Project.findByIdAndDelete(projectId);
