@@ -66,7 +66,6 @@ const projectSchema = new mongoose.Schema(
     employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     amount: {
       type: Number,
-      required: true,
       min: [0, "Amount must be positive"],
       set: (v) => Math.round(v * 100) / 100,
     },
