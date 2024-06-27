@@ -18,4 +18,6 @@ router.get('/:userId', userController.getUserById);
 router.put('/:userId', userController.updateUserProfile);
 router.delete('/:id', userController.deleteUser);
 
+router.get('/department/:departmentId', userController.getUsersOfDepartment);
+
 export default router;

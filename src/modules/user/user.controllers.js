@@ -253,11 +253,24 @@ export const getAllUsers = asyncHandler(async (req, res) => {
   });
 });
 
+export const getUsersOfDepartment = asyncHandler(async (req, res) => {
+
+  const usersOfDepartment = await User.find({ "department": req.params.departmentId });
+  
+  if (!usersOfDepartment) {
+    
+    throw new CustomError('Users not found in this department!', 404);
+  }
+  
+  console.log(usersOfDepartment);
+  
+  res.json(usersOfDepartment);
+});
+
 export const getUserById = asyncHandler(async (req, res) => {
   const { userId } = req.params;
   const user = await User.findById(userId);
   if (!user) {
-    throw new CustomError('User not found', 404);
   }
 
   res.json({ user });
