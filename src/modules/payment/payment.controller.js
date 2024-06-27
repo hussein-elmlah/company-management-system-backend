@@ -5,9 +5,16 @@ import Project from '../project/project.model.js';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const createCheckoutSession = asyncHandler(async (req, res) => {
-  const { amount, currency = 'usd', projectId } = req.body; 
+  const { currency = 'usd', projectId } = req.body; 
   
   const origin = req.headers.origin || process.env.FRONTEND_URL;
+
+  const project = await Project.findById(projectId);
+  if (!project) {
+    return res.status(404).json({ error: 'Project not found' });
+  }
+
+  const amount = project.amount;
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
