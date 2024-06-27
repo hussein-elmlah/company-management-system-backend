@@ -64,7 +64,8 @@ const projectSchema = new mongoose.Schema(
     employees: [{
       employee: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
       hoursWorked: { type: Number }
-    }]
+    }],
+    amount: { type: Number }
   },
   {
     timestamps: true,
