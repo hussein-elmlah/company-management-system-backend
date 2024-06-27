@@ -12,7 +12,7 @@ export const getAllProjectNotifications = asyncHandler(async (req, res) => {
   res.json(result);
 });
 
-const sendToAll = async ({usersList, project_id, channel, message, redirectURL = ''}) => {
+const sendToAll = async ({usersList, project_id = null, channel, message, redirectURL = ''}) => {
 
   if (Array.isArray(usersList)) {
     const notificationsList = usersList.map( user => ({
@@ -36,9 +36,17 @@ const sendToAll = async ({usersList, project_id, channel, message, redirectURL =
 export const sendNotification = async ({option, data}) => {
   
   const options = {
-    receiver: async ({project_id, message, redirectURL}) => { 
-      const usersList =  await Project.findOne({ "_id": project_id }, 'client');
-      await sendToAll({usersList: usersList.client.user, project_id, channel: usersList.client.user, message, redirectURL});
+    receiver: async ({type, id, message, redirectURL}) => { 
+      switch (type) {
+        case 'employee':  // employee and dept is updated after user register
+            const user =  await User.findById(id);
+            await sendToAll({usersList: user, id, channel: user._id, message, redirectURL});          
+          break;
+        case 'client':  // role = client
+            const usersList =  await Project.findOne({ "_id": id }, 'client');
+            await sendToAll({usersList: usersList.client.user, id, channel: usersList.client.user, message, redirectURL});
+          break;
+      }
     },
 
     role: async ({project_id = null, role, message, redirectURL}) => { 

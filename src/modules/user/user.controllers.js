@@ -99,7 +99,6 @@ export const register = asyncHandler(async (req, res) => {
   // sendEmail(newUser.email, 'Email Verification', `Please verify your email by clicking the following link: http://localhost:5173/verify-email?token=${verificationToken}`);
   res.status(201).json({ message: 'User registered successfully, please check your email to verify your account.', newUser });
 });
-////////////////////////////////////
 
 export const login = asyncHandler(async (req, res) => {
   console.log(req.body);
@@ -128,9 +127,6 @@ export const login = asyncHandler(async (req, res) => {
   });
   res.json({ user: token });
 });
-/////////////////////////////////
-
- 
 
 export const verifyEmail = asyncHandler(async (req, res) => {
   const { token } = req.query;
@@ -166,10 +162,6 @@ export const verifyEmail = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-//////////////////////////////
-
 export const forgotPassword = asyncHandler(async (req, res) => {
   const { email } = req.body;
   console.log(email);
@@ -185,7 +177,6 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   sendEmail(user.email, 'Password Reset', `Please reset your password by clicking the following link: http://localhost:5173/reset-password/${resetToken}`);
   res.send('Password reset email sent.');
 });
-////////////////////////////////////
 
 export const resetPassword = asyncHandler(async (req, res) => {
   const { token, newPassword } = req.body;
@@ -202,27 +193,6 @@ export const resetPassword = asyncHandler(async (req, res) => {
   await user.save({ validateBeforeSave: false });
   res.send('Password reset successfully.');
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 export const paginateResults = (page, pageSize, users, usersCount) => {
   const startIndex = (page - 1) * pageSize;
@@ -296,6 +266,17 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(userId, updatedFields, {
     new: true,
   });
+
+  await sendNotification({
+    option: 'receiver',
+    data: { 
+            type: "employee",
+            id: user._id,
+            message: "You have been assigned a role and a department" ,
+            redirectURL: `/post`
+          }
+    });
+
   if (!user) {
     throw new CustomError('User not found', 404);
   }
